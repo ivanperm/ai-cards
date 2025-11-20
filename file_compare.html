@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Промпт для нейросети</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {
+              if (document.scripts[j].src === r) { return; }
+          }
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=105432517', 'ym');
+
+      ym(105432517, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/105432517" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #f5f5f5;
+    }
+    .card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 20px;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .prompt-box {
+      padding: 12px 14px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      font-size: 15px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+    }
+    button {
+      margin-top: 16px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:active {
+      transform: translateY(1px);
+    }
+    .status {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #2e7d32;
+      min-height: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Промпт для нейросети</h1>
+
+    <div id="prompt" class="prompt-box"></div>
+
+    <button type="button" onclick="copyPrompt()">Скопировать промпт</button>
+    <div id="status" class="status"></div>
+  </div>
+
+  <script>
+    // 👉 Здесь меняешь текст промпта для нужной карточки
+    const promptText = 'Ты опытный аналитик. Сравни файлы, укажи их сходства и различия';
+
+    // Выводим текст промпта в блок
+    document.getElementById('prompt').textContent = promptText;
+
+    function copyPrompt() {
+      const statusEl = document.getElementById('status');
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(promptText)
+          .then(() => {
+            statusEl.textContent = 'Промпт скопирован.';
+          })
+          .catch(() => {
+            fallbackCopy();
+          });
+      } else {
+        fallbackCopy();
+      }
+    }
+
+    function fallbackCopy() {
+      const statusEl = document.getElementById('status');
+      const temp = document.createElement('textarea');
+      temp.value = promptText;
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      document.body.appendChild(temp);
+      temp.select();
+      try {
+        document.execCommand('copy');
+        statusEl.textContent = 'Промпт скопирован.';
+      } catch (e) {
+        statusEl.textContent = 'Не удалось скопировать промпт.';
+      }
+      document.body.removeChild(temp);
+    }
+  </script>
+</body>
+</html>
