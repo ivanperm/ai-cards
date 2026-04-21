@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Промпт для нейросети</title>
+  <title>Вопросы по файлу</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Yandex.Metrika counter -->
@@ -51,7 +51,7 @@
       white-space: pre-wrap;
     }
     button {
-      margin-top: 16px;
+      margin-top: 0;
       padding: 8px 14px;
       border-radius: 6px;
       border: 1px solid #333;
@@ -63,6 +63,12 @@
     button:active {
       transform: translateY(1px);
     }
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
     .status {
       margin-top: 8px;
       font-size: 13px;
@@ -73,19 +79,22 @@
 </head>
 <body>
   <div class="card">
-    <h1>Промпт для нейросети</h1>
+    <h1>Вопросы по файлу</h1>
 
     <div id="prompt" class="prompt-box"></div>
 
-    <button type="button" onclick="copyPrompt()">Скопировать промпт</button>
+    <div class="button-row">
+    <button type="button" onclick="copyPrompt()">РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РїСЂРѕРјРїС‚</button>
+    <button type="button" onclick="goBack()">Назад</button>
+    </div>
     <div id="status" class="status"></div>
   </div>
 
   <script>
-    // 👉 Здесь меняешь текст промпта для нужной карточки
-    const promptText = 'Ты эксперт в области ***. Посмотри загруженный файл и ответь на вопросы о его содержимом:';
+    // рџ‘‰ Р—РґРµСЃСЊ РјРµРЅСЏРµС€СЊ С‚РµРєСЃС‚ РїСЂРѕРјРїС‚Р° РґР»СЏ РЅСѓР¶РЅРѕР№ РєР°СЂС‚РѕС‡РєРё
+    const promptText = 'РўС‹ СЌРєСЃРїРµСЂС‚ РІ РѕР±Р»Р°СЃС‚Рё ***. РџРѕСЃРјРѕС‚СЂРё Р·Р°РіСЂСѓР¶РµРЅРЅС‹Р№ С„Р°Р№Р» Рё РѕС‚РІРµС‚СЊ РЅР° РІРѕРїСЂРѕСЃС‹ Рѕ РµРіРѕ СЃРѕРґРµСЂР¶РёРјРѕРј:';
 
-    // Выводим текст промпта в блок
+    // Р’С‹РІРѕРґРёРј С‚РµРєСЃС‚ РїСЂРѕРјРїС‚Р° РІ Р±Р»РѕРє
     document.getElementById('prompt').textContent = promptText;
 
     function copyPrompt() {
@@ -94,7 +103,7 @@
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(promptText)
           .then(() => {
-            statusEl.textContent = 'Промпт скопирован.';
+            statusEl.textContent = 'РџСЂРѕРјРїС‚ СЃРєРѕРїРёСЂРѕРІР°РЅ.';
           })
           .catch(() => {
             fallbackCopy();
@@ -102,6 +111,10 @@
       } else {
         fallbackCopy();
       }
+    }
+
+    function goBack() {
+      window.location.href = 'index.html';
     }
 
     function fallbackCopy() {
@@ -114,12 +127,16 @@
       temp.select();
       try {
         document.execCommand('copy');
-        statusEl.textContent = 'Промпт скопирован.';
+        statusEl.textContent = 'РџСЂРѕРјРїС‚ СЃРєРѕРїРёСЂРѕРІР°РЅ.';
       } catch (e) {
-        statusEl.textContent = 'Не удалось скопировать промпт.';
+        statusEl.textContent = 'РќРµ СѓРґР°Р»РѕСЃСЊ СЃРєРѕРїРёСЂРѕРІР°С‚СЊ РїСЂРѕРјРїС‚.';
       }
       document.body.removeChild(temp);
     }
   </script>
 </body>
 </html>
+
+
+
+
