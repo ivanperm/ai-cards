@@ -84,17 +84,17 @@
     <div id="prompt" class="prompt-box"></div>
 
     <div class="button-row">
-    <button type="button" onclick="copyPrompt()">РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РїСЂРѕРјРїС‚</button>
+    <button type="button" onclick="copyPrompt()">Скопировать промпт</button>
     <button type="button" onclick="goBack()">Назад</button>
     </div>
     <div id="status" class="status"></div>
   </div>
 
   <script>
-    // рџ‘‰ Р—РґРµСЃСЊ РјРµРЅСЏРµС€СЊ С‚РµРєСЃС‚ РїСЂРѕРјРїС‚Р° РґР»СЏ РЅСѓР¶РЅРѕР№ РєР°СЂС‚РѕС‡РєРё
-    const promptText = 'РўС‹ РѕРїС‹С‚РЅС‹Р№ СЂРёСЃРє-Р°РЅР°Р»РёС‚РёРє. РћРїСЂРµРґРµР»Рё 3вЂ“5 РІРѕР·РјРѕР¶РЅС‹С… СЂРёСЃРєРѕРІ Рё РїСЂРµРґР»РѕР¶Рё РјРµСЂС‹. РћРїРёСЃР°РЅРёРµ РїСЂРѕР±Р»РµРјС‹:';
+    // 👉 Здесь меняешь текст промпта для нужной карточки
+    const promptText = 'Ты опытный риск-аналитик. Определи 3–5 возможных рисков и предложи меры. Описание проблемы:';
 
-    // Р’С‹РІРѕРґРёРј С‚РµРєСЃС‚ РїСЂРѕРјРїС‚Р° РІ Р±Р»РѕРє
+    // Выводим текст промпта в блок
     document.getElementById('prompt').textContent = promptText;
 
     function copyPrompt() {
@@ -103,7 +103,7 @@
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(promptText)
           .then(() => {
-            statusEl.textContent = 'РџСЂРѕРјРїС‚ СЃРєРѕРїРёСЂРѕРІР°РЅ.';
+            statusEl.textContent = 'Промпт скопирован.';
           })
           .catch(() => {
             fallbackCopy();
@@ -127,16 +127,13 @@
       temp.select();
       try {
         document.execCommand('copy');
-        statusEl.textContent = 'РџСЂРѕРјРїС‚ СЃРєРѕРїРёСЂРѕРІР°РЅ.';
+        statusEl.textContent = 'Промпт скопирован.';
       } catch (e) {
-        statusEl.textContent = 'РќРµ СѓРґР°Р»РѕСЃСЊ СЃРєРѕРїРёСЂРѕРІР°С‚СЊ РїСЂРѕРјРїС‚.';
+        statusEl.textContent = 'Не удалось скопировать промпт.';
       }
       document.body.removeChild(temp);
     }
   </script>
 </body>
 </html>
-
-
-
 
