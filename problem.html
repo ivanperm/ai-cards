@@ -36,6 +36,41 @@
       padding: 20px 24px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .tag-analysis {
+      background: #dcebff;
+      color: #1f5faf;
+    }
+    .tag-text {
+      background: #ddf5e8;
+      color: #216946;
+    }
+    .tag-files {
+      background: #fff0d9;
+      color: #9a5a00;
+    }
+    .tag-ideas {
+      background: #ffe1d9;
+      color: #b44e2e;
+    }
+    .tag-comm {
+      background: #fce0e8;
+      color: #a43c64;
+    }
+    .tag-research {
+      background: #e9e4f7;
+      color: #5e4e91;
+    }
     h1 {
       font-size: 20px;
       margin-top: 0;
@@ -79,6 +114,7 @@
 </head>
 <body>
   <div class="card">
+    <span class="tag tag-comm">Коммуникация</span>
     <h1>Решение проблемы</h1>
 
     <div id="prompt" class="prompt-box"></div>
@@ -92,7 +128,7 @@
 
   <script>
     // 👉 Здесь меняешь текст промпта для нужной карточки
-    const promptText = 'Ты опытный медиатор. Сформулируй решение проблемы, учитывай все стороны вопроса. Вот проблема: ***';
+    const promptText = "Ты опытный медиатор и аналитик. Разбери проблему ниже, учти интересы всех сторон и предложи возможное решение. Включи: 1) в чём суть проблемы, 2) позиции сторон, 3) возможный компромисс или план действий. Проблема: ***";
 
     // Выводим текст промпта в блок
     document.getElementById('prompt').textContent = promptText;
@@ -136,4 +172,5 @@
   </script>
 </body>
 </html>
+
 

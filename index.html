@@ -1,67 +1,422 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>AI Cards - Список промптов</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Cards - Каталог промптов</title>
   <style>
+    :root {
+      --bg: #f6f1e8;
+      --bg-soft: #fffdf8;
+      --text: #1f1e1a;
+      --muted: #635f57;
+      --line: rgba(33, 30, 26, 0.1);
+      --shadow: 0 18px 45px rgba(54, 44, 28, 0.08);
+      --shadow-hover: 0 22px 55px rgba(54, 44, 28, 0.14);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --analysis-bg: #dcebff;
+      --analysis-text: #1f5faf;
+      --text-bg: #ddf5e8;
+      --text-text: #216946;
+      --files-bg: #fff0d9;
+      --files-text: #9a5a00;
+      --ideas-bg: #ffe1d9;
+      --ideas-text: #b44e2e;
+      --comm-bg: #fce0e8;
+      --comm-text: #a43c64;
+      --research-bg: #e9e4f7;
+      --research-text: #5e4e91;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, sans-serif;
-      background: #f5f5f5;
-      padding: 24px;
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 223, 188, 0.6), transparent 28%),
+        radial-gradient(circle at top right, rgba(218, 232, 255, 0.6), transparent 26%),
+        linear-gradient(180deg, #fffdfa 0%, var(--bg) 100%);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+    }
+
+    .hero {
+      padding: clamp(24px, 4vw, 42px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 253, 248, 0.84);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-content {
+      max-width: 1120px;
+    }
+
+    .hero-text {
+      max-width: 920px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 16px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(31, 95, 175, 0.08);
+      color: #244d8c;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
       margin: 0;
     }
+
     h1 {
-      margin-bottom: 16px;
+      font-size: clamp(2.3rem, 6vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
     }
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
+
+    .hero-copy {
+      margin-top: 16px;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 1.6;
+      color: var(--muted);
     }
-    li {
-      background: #ffffff;
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      margin: 28px 0 18px;
+    }
+
+    .section-head p {
+      max-width: 56ch;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .section-note {
       padding: 10px 14px;
-      margin-bottom: 8px;
-      border-radius: 6px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 0.92rem;
     }
-    a {
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .prompt-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 240px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: var(--shadow);
+      color: inherit;
       text-decoration: none;
-      color: #333;
-      font-size: 15px;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .prompt-card:hover,
+    .prompt-card:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(33, 30, 26, 0.16);
+      outline: none;
+    }
+
+    .prompt-card:focus-visible {
+      box-shadow: 0 0 0 4px rgba(31, 95, 175, 0.15), var(--shadow-hover);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .pill-analysis {
+      background: var(--analysis-bg);
+      color: var(--analysis-text);
+    }
+
+    .pill-text {
+      background: var(--text-bg);
+      color: var(--text-text);
+    }
+
+    .pill-files {
+      background: var(--files-bg);
+      color: var(--files-text);
+    }
+
+    .pill-ideas {
+      background: var(--ideas-bg);
+      color: var(--ideas-text);
+    }
+
+    .pill-comm {
+      background: var(--comm-bg);
+      color: var(--comm-text);
+    }
+
+    .pill-research {
+      background: var(--research-bg);
+      color: var(--research-text);
+    }
+
+    .prompt-card h3 {
+      margin-top: 18px;
+      font-size: 1.3rem;
+      line-height: 1.15;
+    }
+
+    .prompt-card p {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      flex-grow: 1;
+    }
+
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-weight: 700;
+    }
+
+    .prompt-card:hover .card-cta,
+    .prompt-card:focus-visible .card-cta {
+      transform: translateX(3px);
+      transition: transform 180ms ease;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 20px, 100%);
+        padding: 18px 0 28px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .section-note {
+        white-space: normal;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .prompt-card {
+        min-height: 220px;
+      }
     }
   </style>
 </head>
 <body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">AI Cards</p>
+        <div class="hero-text">
+          <h1>Готовые промпты для частых задач</h1>
+          <p class="hero-copy">
+            Каталог карточек для анализа, работы с текстом, файлами, идеями и коммуникацией.
+            Откройте нужный шаблон, скопируйте промпт и сразу используйте его в нейросети.
+          </p>
+        </div>
+      </div>
+    </section>
 
-  <h1>Список промптов</h1>
+    <section aria-labelledby="cards-title">
+      <div class="section-head">
+        <div>
+          <h2 id="cards-title">Каталог карточек</h2>
+          <p>Каждая карточка ведёт на отдельный готовый промпт с кнопкой копирования. Вся страница остаётся статической и загружается мгновенно.</p>
+        </div>
+        <div class="section-note">Откройте карточку, чтобы посмотреть полный промпт</div>
+      </div>
 
-  <ul>
-    <li><a href="analysis.html">Анализ ситуации</a></li>
-    <li><a href="analyst.html">Краткий отчёт</a></li>
-    <li><a href="annotation.html">Краткая выжимка</a></li>
-    <li><a href="arguments.html">Аргументы за и против</a></li>
-    <li><a href="complaint.html">Ответ на жалобу</a></li>
-    <li><a href="consultant.html">Варианты решения</a></li>
-    <li><a href="factcheck.html">Проверка фактов</a></li>
-    <li><a href="file_annotation.html">Кратко о файле</a></li>
-    <li><a href="file_compare.html">Сравнение файлов</a></li>
-    <li><a href="file_questions.html">Вопросы по файлу</a></li>
-    <li><a href="idea.html">Оценка идеи</a></li>
-    <li><a href="idea_start.html">Идеи для старта</a></li>
-    <li><a href="letter.html">Ответ на письмо</a></li>
-    <li><a href="mentor.html">С чего начать</a></li>
-    <li><a href="problem.html">Решение проблемы</a></li>
-    <li><a href="research.html">Поиск источников</a></li>
-    <li><a href="risks.html">Анализ рисков</a></li>
-    <li><a href="table.html">Выводы из таблицы</a></li>
-    <li><a href="teacher.html">Объяснить простыми словами</a></li>
-    <li><a href="text.html">Улучшение текста</a></li>
-  </ul>
+      <div class="card-grid">
+        <a class="prompt-card" href="analysis.html">
+          <span class="pill pill-analysis">Анализ</span>
+          <h3>Анализ ситуации</h3>
+          <p>Помогает быстро разобрать ситуацию и получить рекомендации по дальнейшим шагам.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
 
+        <a class="prompt-card" href="analyst.html">
+          <span class="pill pill-analysis">Анализ</span>
+          <h3>Краткий отчёт</h3>
+          <p>Превращает тему или задачу в короткий структурированный отчёт без лишней воды.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="annotation.html">
+          <span class="pill pill-text">Текст</span>
+          <h3>Краткая выжимка</h3>
+          <p>Сжимает большой текст до главных мыслей и помогает быстро уловить суть.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="arguments.html">
+          <span class="pill pill-analysis">Анализ</span>
+          <h3>Аргументы за и против</h3>
+          <p>Помогает посмотреть на вопрос с двух сторон и собрать сильные аргументы.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="complaint.html">
+          <span class="pill pill-comm">Коммуникация</span>
+          <h3>Ответ на жалобу</h3>
+          <p>Формулирует спокойный, вежливый и конструктивный ответ на претензию или жалобу.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="consultant.html">
+          <span class="pill pill-ideas">Идеи</span>
+          <h3>Варианты решения</h3>
+          <p>Предлагает несколько подходов к задаче, чтобы было проще выбрать лучший путь.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="factcheck.html">
+          <span class="pill pill-analysis">Анализ</span>
+          <h3>Проверка фактов</h3>
+          <p>Проверяет утверждения и помогает отделить подтверждённые факты от сомнительных.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="file_annotation.html">
+          <span class="pill pill-files">Файлы</span>
+          <h3>Кратко о файле</h3>
+          <p>Быстро объясняет, о чём файл, что в нём важно и кому он может быть полезен.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="file_compare.html">
+          <span class="pill pill-files">Файлы</span>
+          <h3>Сравнение файлов</h3>
+          <p>Находит сходства и различия между файлами и помогает увидеть главное.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="file_questions.html">
+          <span class="pill pill-files">Файлы</span>
+          <h3>Вопросы по файлу</h3>
+          <p>Отвечает на вопросы по содержимому файла и помогает быстро в нём разобраться.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="idea.html">
+          <span class="pill pill-ideas">Идеи</span>
+          <h3>Оценка идеи</h3>
+          <p>Помогает проверить идею на сильные и слабые стороны до начала работы.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="idea_start.html">
+          <span class="pill pill-ideas">Идеи</span>
+          <h3>Идеи для старта</h3>
+          <p>Предлагает несколько стартовых идей, когда нужно сдвинуться с места.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="letter.html">
+          <span class="pill pill-comm">Коммуникация</span>
+          <h3>Ответ на письмо</h3>
+          <p>Помогает подготовить вежливый, понятный и уместный ответ на письмо.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="mentor.html">
+          <span class="pill pill-ideas">Идеи</span>
+          <h3>С чего начать</h3>
+          <p>Помогает выйти из ступора и выбрать первые простые шаги по теме или задаче.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="problem.html">
+          <span class="pill pill-comm">Коммуникация</span>
+          <h3>Решение проблемы</h3>
+          <p>Помогает сформулировать решение с учётом разных сторон и ограничений.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="research.html">
+          <span class="pill pill-research">Исследование</span>
+          <h3>Поиск источников</h3>
+          <p>Помогает найти полезные источники и собрать базу для изучения темы.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="risks.html">
+          <span class="pill pill-analysis">Анализ</span>
+          <h3>Анализ рисков</h3>
+          <p>Выявляет возможные риски заранее и предлагает способы их снизить.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="table.html">
+          <span class="pill pill-analysis">Анализ</span>
+          <h3>Выводы из таблицы</h3>
+          <p>Помогает быстро извлечь ключевые выводы и закономерности из табличных данных.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="teacher.html">
+          <span class="pill pill-text">Текст</span>
+          <h3>Объяснить простыми словами</h3>
+          <p>Переводит сложный текст в простое и понятное объяснение.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+
+        <a class="prompt-card" href="text.html">
+          <span class="pill pill-text">Текст</span>
+          <h3>Улучшение текста</h3>
+          <p>Помогает сделать текст яснее, сильнее и удобнее для чтения.</p>
+          <span class="card-cta">Открыть промпт -></span>
+        </a>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
